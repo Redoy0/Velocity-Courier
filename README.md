@@ -4,6 +4,13 @@
 
 ### *Lightning-Fast Parcel Management System*
 
+<br/>
+
+[![Live Demo](https://img.shields.io/badge/🌐_LIVE_DEMO-Visit_Now-FF6B6B?style=for-the-badge&logoColor=white)](https://calm-buttercream-d655c7.netlify.app)
+[![API Status](https://img.shields.io/badge/API-Online-00C853?style=for-the-badge&logo=checkmarx&logoColor=white)](https://velocity-courier-api.onrender.com/health)
+
+<br/>
+
 [![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white)](https://www.mongodb.com/)
 [![Express.js](https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white)](https://expressjs.com/)
 [![React](https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://reactjs.org/)
@@ -24,11 +31,36 @@ A comprehensive logistics management system built with the <strong>MERN Stack</s
 real-time parcel tracking, role-based access control, and OpenStreetMap integration.
 </p>
 
-[Features](#-features) • [Installation](#-quick-start) • [API Docs](#-api-documentation) • [Contributing](#-contributing)
+[Live Demo](#-live-demo) • [Features](#-features) • [Installation](#-quick-start) • [API Docs](#-api-documentation) • [Contributing](#-contributing)
 
 ---
 
 </div>
+
+## 🌐 Live Demo
+
+<div align="center">
+
+### 🎯 **[Launch Application →](https://calm-buttercream-d655c7.netlify.app)**
+
+| Service | URL | Status |
+|:-------:|:---:|:------:|
+| 🎨 **Frontend** | [calm-buttercream-d655c7.netlify.app](https://calm-buttercream-d655c7.netlify.app) | [![Netlify Status](https://img.shields.io/badge/Netlify-Live-00C7B7?logo=netlify)](https://calm-buttercream-d655c7.netlify.app) |
+| 🔧 **Backend API** | [velocity-courier-api.onrender.com](https://velocity-courier-api.onrender.com) | [![API Status](https://img.shields.io/badge/Render-Live-46E3B7?logo=render)](https://velocity-courier-api.onrender.com/health) |
+| 🗄️ **Database** | MongoDB Atlas | [![DB Status](https://img.shields.io/badge/MongoDB-Connected-47A248?logo=mongodb)](https://www.mongodb.com/) |
+
+### 🔑 Demo Credentials
+
+| Role | Email | Password |
+|:----:|:-----:|:--------:|
+| 👨‍💼 **Admin** | `admin@example.com` | `password123` |
+| 🚚 **Agent** | `agent1@example.com` | `password123` |
+
+> ⚠️ **Note:** Free tier services may take 30-60 seconds to wake up on first visit.
+
+</div>
+
+---
 
 ## ✨ Features
 
