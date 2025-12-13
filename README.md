@@ -1,374 +1,554 @@
-# Courier & Parcel Management System (MERN Stack)
+<div align="center">
 
-A comprehensive logistics management system built with the MERN stack (MongoDB, Express.js, React.js, Node.js) featuring real-time parcel tracking, role-based access control, and OpenStreetMap integration.
+# 🚀 Velocity Courier
 
-## 🚀 Features
+### *Lightning-Fast Parcel Management System*
 
-### 🔐 Authentication & Authorization
-- **User Registration & Login** with JWT tokens
-- **Role-based Access Control**: Admin, Delivery Agent, Customer
-- **Secure password hashing** using bcryptjs
-- **Protected routes** with middleware validation
+[![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white)](https://www.mongodb.com/)
+[![Express.js](https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white)](https://expressjs.com/)
+[![React](https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://reactjs.org/)
+[![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)](https://nodejs.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+[![Socket.IO](https://img.shields.io/badge/Socket.IO-010101?style=for-the-badge&logo=socketdotio&logoColor=white)](https://socket.io/)
+[![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
+
+<p align="center">
+  <img src="https://img.shields.io/badge/version-1.0.0-blue?style=flat-square" alt="Version">
+  <img src="https://img.shields.io/badge/license-MIT-green?style=flat-square" alt="License">
+  <img src="https://img.shields.io/badge/PRs-welcome-brightgreen?style=flat-square" alt="PRs Welcome">
+  <img src="https://img.shields.io/badge/status-active-success?style=flat-square" alt="Status">
+</p>
+
+<p align="center">
+A comprehensive logistics management system built with the <strong>MERN Stack</strong> featuring<br/>
+real-time parcel tracking, role-based access control, and OpenStreetMap integration.
+</p>
+
+[Features](#-features) • [Installation](#-quick-start) • [API Docs](#-api-documentation) • [Contributing](#-contributing)
+
+---
+
+</div>
+
+## ✨ Features
+
+<table>
+<tr>
+<td width="50%">
+
+### 🔐 Authentication & Security
+- JWT-based authentication
+- Role-based access control (Admin, Agent, Customer)
+- Secure password hashing with bcryptjs
+- Protected route middleware
+
+</td>
+<td width="50%">
 
 ### 📦 Parcel Management
-- **Parcel Booking**: Pickup/delivery addresses, size, type, payment method
-- **Payment Types**: COD (Cash on Delivery) and Prepaid
-- **Parcel Categories**: Small, Medium, Large sizes
-- **Parcel Types**: Document, Fragile, Standard, Perishable
-- **Status Tracking**: Pending → Assigned → Picked Up → In Transit → Delivered/Failed
-- **Unique Tracking Codes** for each parcel
+- Multiple parcel types & sizes
+- COD & Prepaid payment options
+- Unique tracking codes
+- Complete status lifecycle
 
-### 🗺️ Real-time Tracking & Mapping
-- **OpenStreetMap Integration** (no Google Maps API required)
-- **Live Location Updates** via Socket.IO
-- **Real-time Status Updates** for customers
-- **Route Visualization** with pickup and delivery points
-- **ETA Calculations** and distance tracking
+</td>
+</tr>
+<tr>
+<td width="50%">
 
-### 👥 Role-specific Features
+### 🗺️ Real-time Tracking
+- OpenStreetMap integration (FREE!)
+- Live GPS location updates
+- Interactive route visualization
+- Socket.IO powered updates
 
-#### 👨‍💼 Admin Dashboard
-- **Analytics Dashboard**: Daily bookings, failed deliveries, COD amounts
-- **Agent Assignment**: Assign delivery agents to parcels
-- **User Management**: View all users and their roles
-- **Report Generation**: CSV and PDF exports
-- **System Overview**: Complete parcel and user statistics
+</td>
+<td width="50%">
 
-#### 🚚 Delivery Agent Dashboard
-- **Assigned Parcels**: View and manage assigned deliveries
-- **Status Updates**: Update parcel status (Picked Up, In Transit, Delivered, Failed)
-- **Live Location Sharing**: Real-time GPS location updates
-- **Interactive Map**: OpenStreetMap with current position
-- **Parcel Details**: Complete information for each delivery
+### 📊 Analytics & Reports
+- Dashboard with KPIs
+- CSV & PDF exports
+- Performance metrics
+- Real-time statistics
 
-#### 👤 Customer Dashboard
-- **Parcel Booking**: Create new delivery requests
-- **Booking History**: View all past and current parcels
-- **Real-time Tracking**: Live updates on parcel status and location
-- **Public Tracking**: Share tracking links with others
-- **Parcel Details**: Complete delivery information
+</td>
+</tr>
+</table>
 
-### 📊 Analytics & Reporting
-- **Dashboard Metrics**: Real-time statistics and KPIs
-- **CSV Export**: Download parcel data in spreadsheet format
-- **PDF Reports**: Generate printable delivery reports
-- **Performance Tracking**: Monitor delivery success rates
+### 👥 Role-Based Dashboards
 
-### 🔌 Real-time Communication
-- **Socket.IO Integration**: Instant updates across all clients
-- **Live Notifications**: Status changes and location updates
-- **Multi-room Support**: Efficient event broadcasting
-- **Connection Management**: Automatic reconnection handling
+| 👨‍💼 **Admin** | 🚚 **Delivery Agent** | 👤 **Customer** |
+|:---:|:---:|:---:|
+| Analytics Dashboard | Assigned Parcels | Parcel Booking |
+| Agent Assignment | Status Updates | Booking History |
+| User Management | Live Location Sharing | Real-time Tracking |
+| Report Generation | Interactive Maps | Public Tracking Links |
 
-## 🏗️ Architecture
+---
 
-### Backend (Node.js + Express)
+## 📁 Project Structure
+
 ```
-server/
-├── src/
-│   ├── config/          # Database configuration
-│   ├── controllers/     # Business logic handlers
-│   ├── middleware/      # Authentication & validation
-│   ├── models/          # MongoDB schemas
-│   ├── routes/          # API endpoints
-│   ├── services/        # Socket.IO handlers
-│   └── utils/           # JWT utilities
-├── scripts/             # Database seeding
-└── package.json
+🚀 Velocity-Courier/
+│
+├── 📋 README.md                    # Project documentation
+├── 📋 BEGINNER_GUIDE.md            # Getting started guide
+├── 📋 PROJECT_REPORT.md            # Project report
+├── 📦 package.json                 # Root package configuration
+├── 📬 postman_collection_api.json  # API collection for testing
+├── 🚀 start-server.bat             # Quick start script (Windows)
+│
+├── 🔧 backend/                     # Backend API Server
+│   ├── 📋 env.example              # Environment template
+│   ├── 📋 ENVIRONMENT_SETUP.md     # Setup instructions
+│   ├── 📦 package.json             # Backend dependencies
+│   ├── ⚡ vercel.json              # Vercel deployment config
+│   │
+│   ├── 📂 scripts/
+│   │   └── 🌱 seed.js              # Database seeding script
+│   │
+│   └── 📂 src/
+│       ├── 🚀 index.js             # Server entry point
+│       │
+│       ├── 📂 config/
+│       │   └── 🍃 mongoose.js      # MongoDB connection
+│       │
+│       ├── 📂 controllers/         # Business logic
+│       │   ├── 📊 analytics.controller.js
+│       │   ├── 🔐 auth.controller.js
+│       │   └── 📦 parcel.controller.js
+│       │
+│       ├── 📂 middleware/
+│       │   └── 🛡️ auth.js           # JWT authentication
+│       │
+│       ├── 📂 models/              # Database schemas
+│       │   ├── 📦 Parcel.js
+│       │   └── 👤 User.js
+│       │
+│       ├── 📂 routes/              # API endpoints
+│       │   ├── 📊 analytics.routes.js
+│       │   ├── 🚚 assignment.routes.js
+│       │   ├── 🔐 auth.routes.js
+│       │   ├── 🗺️ geocode.routes.js
+│       │   ├── 📦 parcel.routes.js
+│       │   └── 👤 user.routes.js
+│       │
+│       ├── 📂 services/
+│       │   └── 🔌 socket.js        # Real-time communication
+│       │
+│       └── 📂 utils/
+│           ├── 🔑 jwt.js           # Token utilities
+│           └── 📧 mailer.js        # Email service
+│
+├── 🎨 frontend/                    # React Frontend Application
+│   ├── 📋 eslint.config.js         # Linting configuration
+│   ├── 📄 index.html               # HTML entry point
+│   ├── 📦 package.json             # Frontend dependencies
+│   ├── ⚙️ postcss.config.js        # PostCSS configuration
+│   ├── 📋 README.md                # Frontend documentation
+│   ├── 🎨 tailwind.config.js       # Tailwind CSS config
+│   ├── ⚡ vite.config.js           # Vite bundler config
+│   │
+│   ├── 📂 public/
+│   │   └── 🔄 _redirects           # Netlify redirects
+│   │
+│   └── 📂 src/
+│       ├── 🌐 api.js               # API client
+│       ├── 🎨 App.css              # App styles
+│       ├── ⚛️ App.jsx               # Root component
+│       ├── 🎨 index.css            # Global styles
+│       ├── 🚀 main.jsx             # React entry point
+│       ├── 🔌 socket.js            # Socket.IO client
+│       │
+│       ├── 📂 assets/              # Static assets
+│       │
+│       ├── 📂 components/          # Reusable components
+│       │   ├── 👨‍💼 AdminPanel.jsx
+│       │   └── 🌍 LanguageSwitcher.jsx
+│       │
+│       ├── 📂 context/             # React contexts
+│       │   ├── 🔐 AuthContext.jsx
+│       │   └── 🌍 LanguageContext.jsx
+│       │
+│       ├── 📂 pages/               # Route pages
+│       │   ├── 📍 AdminAgentTracking.jsx
+│       │   ├── 📊 AdminDashboard.jsx
+│       │   ├── 🚚 AgentDashboard.jsx
+│       │   ├── 📦 AgentParcelDetails.jsx
+│       │   ├── ✅ AgentParcelPickUpConfirmation.jsx
+│       │   ├── 📷 AgentParcelPickUpScan.jsx
+│       │   ├── 👤 CustomerDashboard.jsx
+│       │   ├── 📦 CustomerParcelDetail.jsx
+│       │   ├── 📷 CustomerQrScanner.jsx
+│       │   ├── 🔐 Login.jsx
+│       │   ├── 🗺️ MapJavascriptRoute.jsx
+│       │   ├── 📦 ParcelDetailView.jsx
+│       │   ├── 🗺️ ParcelRoute.jsx
+│       │   ├── 🌐 PublicTrack.jsx
+│       │   ├── 📍 PushCurrentLocation.jsx
+│       │   ├── 🗺️ PushInMap.jsx
+│       │   ├── 🔍 TrackParcel.jsx
+│       │   └── 🌐 TrackPublicParcel.jsx
+│       │
+│       ├── 📂 routes/
+│       │   └── 🛡️ ProtectedRoute.jsx
+│       │
+│       └── 📂 translations/        # i18n support
+│           ├── 🇧🇩 bn.js            # Bengali
+│           ├── 🇺🇸 en.js            # English
+│           └── 📋 index.js
+
+
 ```
 
-### Frontend (React + Vite)
-```
-client/
-├── src/
-│   ├── components/      # Reusable UI components
-│   ├── context/         # Authentication context
-│   ├── pages/           # Route components
-│   ├── routes/          # Protected route logic
-│   ├── api.js           # API client
-│   └── socket.js        # Socket.IO client
-├── public/              # Static assets
-└── package.json
-```
+---
 
-## 🛠️ Technology Stack
+## 🛠️ Tech Stack
 
-### Backend
-- **Runtime**: Node.js 20+
-- **Framework**: Express.js
-- **Database**: MongoDB with Mongoose ODM
-- **Authentication**: JWT (JSON Web Tokens)
-- **Real-time**: Socket.IO
-- **Validation**: Express-validator
-- **Security**: bcryptjs for password hashing
-- **Reporting**: CSV-writer, PDFKit
-- **Utilities**: UUID generation, Morgan logging
+<div align="center">
 
-### Frontend
-- **Framework**: React 19 with Vite
-- **Routing**: React Router DOM v7
-- **Styling**: Tailwind CSS
-- **Maps**: Leaflet.js with OpenStreetMap
-- **Real-time**: Socket.IO client
-- **State Management**: React Context API
-- **Build Tool**: Vite with PostCSS
+| Layer | Technologies |
+|:---:|:---|
+| **Frontend** | React 19, Vite, Tailwind CSS, React Router v7, Leaflet.js |
+| **Backend** | Node.js 20+, Express.js, Socket.IO, JWT |
+| **Database** | MongoDB with Mongoose ODM |
+| **DevOps** | Vercel, ESLint, PostCSS |
+| **Maps** | OpenStreetMap + Leaflet (100% Free!) |
 
-### Database
-- **MongoDB**: NoSQL document database
-- **Mongoose**: Object Data Modeling
-- **Schemas**: User, Parcel with embedded location data
+</div>
 
-## 📋 Prerequisites
+---
 
-- **Node.js**: Version 20 or higher
-- **MongoDB**: Running locally or cloud instance
-- **Git**: For cloning the repository
-- **Modern Browser**: Chrome, Firefox, Safari, Edge
+## 🚀 Quick Start
 
-## 🚀 Installation & Setup
+### Prerequisites
 
-### 1. Clone the Repository
 ```bash
-git clone <repository-url>
-cd courier-parcel-management-system
+✅ Node.js 20+
+✅ MongoDB (Local or Atlas)
+✅ Git
 ```
 
-### 2. Environment Configuration
+### ⚡ One-Click Setup (Windows)
 
-#### Backend Environment
-Create `server/.env` file:
+```bash
+# Clone and run
+git clone <repository-url>
+cd Velocity-Courier
+start-server.bat
+```
+
+### 📝 Manual Setup
+
+<details>
+<summary><b>1️⃣ Clone & Install</b></summary>
+
+```bash
+# Clone repository
+git clone <repository-url>
+cd Velocity-Courier
+
+# Install all dependencies
+npm install
+cd backend && npm install
+cd ../frontend && npm install
+```
+
+</details>
+
+<details>
+<summary><b>2️⃣ Environment Configuration</b></summary>
+
+**Backend** (`backend/.env`):
 ```env
 PORT=5000
-MONGODB_URI=mongodb://127.0.0.1:27017/courier_db
+MONGODB_URI=mongodb://127.0.0.1:27017/velocity_courier
 JWT_SECRET=your_super_secret_jwt_key_here
 CLIENT_ORIGIN=http://localhost:5173
 SOCKET_CORS_ORIGIN=http://localhost:5173
 ```
 
-#### Frontend Environment
-Create `client/.env` file:
+**Frontend** (`frontend/.env`):
 ```env
 VITE_API_BASE=http://localhost:5000/api
 VITE_SOCKET_URL=http://localhost:5000
 ```
 
-### 3. Install Dependencies
+</details>
+
+<details>
+<summary><b>3️⃣ Database Setup & Seeding</b></summary>
+
 ```bash
-# Install root dependencies
-npm install
-
-# Install backend dependencies
-cd server && npm install
-
-# Install frontend dependencies
-cd ../client && npm install
-```
-
-### 4. Database Setup
-```bash
-# Start MongoDB (if running locally)
+# Start MongoDB (if local)
 mongod
 
-# Seed the database with sample data
-cd server && npm run seed
+# Seed sample data
+cd backend && npm run seed
 ```
 
-### 5. Start the Application
+</details>
+
+<details>
+<summary><b>4️⃣ Start Development Servers</b></summary>
+
 ```bash
-# Terminal 1: Start backend server
-cd server && npm run dev
+# Terminal 1: Backend
+cd backend && npm run dev
 
-# Terminal 2: Start frontend development server
-cd client && npm run dev
+# Terminal 2: Frontend
+cd frontend && npm run dev
 ```
 
-The application will be available at:
-- **Frontend**: http://localhost:5173
-- **Backend API**: http://localhost:5000
-- **Health Check**: http://localhost:5000/health
+</details>
 
-## 📚 API Documentation
+### 🌐 Access Points
 
-### Authentication Endpoints
-```
-POST /api/auth/register    # User registration
-POST /api/auth/login       # User authentication
-```
-
-### Parcel Management
-```
-GET    /api/parcels              # List parcels (role-aware)
-POST   /api/parcels              # Create new parcel
-GET    /api/parcels/:id          # Get parcel details
-DELETE /api/parcels/:id          # Delete parcel (admin only)
-POST   /api/parcels/:id/assign  # Assign delivery agent
-POST   /api/parcels/:id/status  # Update parcel status
-POST   /api/parcels/:id/location # Update current location
-GET    /api/parcels/track/:code # Public tracking by code
-```
-
-### Analytics & Reports
-```
-GET /api/analytics/dashboard     # Dashboard metrics
-GET /api/analytics/export/csv   # Export to CSV
-GET /api/analytics/export/pdf   # Export to PDF
-```
-
-### User Management
-```
-GET /api/users                   # List users (admin only)
-GET /api/users/:id               # Get user details
-```
-
-## 🔐 User Roles & Permissions
-
-### Admin
-- Full system access
-- User management
-- Agent assignment
-- Analytics and reporting
-- Parcel deletion
-- System configuration
-
-### Delivery Agent
-- View assigned parcels
-- Update parcel status
-- Share live location
-- Access delivery routes
-- Update delivery notes
-
-### Customer
-- Book new parcels
-- View booking history
-- Track parcels in real-time
-- Access public tracking
-- Update personal information
-
-## 🗺️ Mapping & Location Features
-
-### OpenStreetMap Integration
-- **No API Key Required**: Free and open-source mapping
-- **Leaflet.js**: Lightweight mapping library
-- **Real-time Updates**: Live location tracking
-- **Route Visualization**: Pickup to delivery routes
-- **Interactive Markers**: Parcel and agent locations
-
-### Location Services
-- **GPS Integration**: Real-time agent positioning
-- **Geolocation API**: Browser-based location services
-- **Coordinate Storage**: MongoDB geospatial data
-- **ETA Calculations**: Estimated delivery times
-
-## 📱 Real-time Features
-
-### Socket.IO Events
-- **Parcel Updates**: Status changes and assignments
-- **Location Updates**: Real-time GPS coordinates
-- **Agent Tracking**: Live delivery agent positions
-- **Customer Notifications**: Instant status updates
-
-### Live Updates
-- **Status Changes**: Immediate notification across all clients
-- **Location Sharing**: Real-time coordinate updates
-- **Assignment Updates**: Instant agent assignment notifications
-- **Connection Management**: Automatic reconnection handling
-
-## 🎨 User Interface
-
-### Design System
-- **Tailwind CSS**: Utility-first CSS framework
-- **Responsive Design**: Mobile-first approach
-- **Modern UI**: Clean and intuitive interface
-- **Component Library**: Reusable UI components
-
-### Key Pages
-- **Login/Register**: Authentication forms
-- **Admin Dashboard**: Analytics and management
-- **Agent Dashboard**: Delivery management
-- **Customer Dashboard**: Booking and tracking
-- **Public Tracking**: Shareable tracking pages
-
-## 🧪 Testing & Development
-
-### Development Scripts
-```bash
-# Backend
-npm run dev          # Start development server
-npm run seed         # Seed database with sample data
-
-# Frontend
-npm run dev          # Start development server
-npm run build        # Build for production
-npm run lint         # Run ESLint
-npm run preview      # Preview production build
-```
-
-### Database Seeding
-The system includes sample data for testing:
-- Sample users (admin, agents, customers)
-- Sample parcels with various statuses
-- Test tracking codes for demonstration
-
-## 🚀 Deployment
-
-### Backend Deployment
-- **Vercel**: Serverless deployment with `vercel.json`
-- **Environment Variables**: Configure production settings
-- **MongoDB Atlas**: Cloud database connection
-- **CORS Configuration**: Production domain settings
-
-### Frontend Deployment
-- **Vite Build**: Optimized production build
-- **Static Hosting**: Deploy to any static host
-- **Environment Variables**: Production API endpoints
-
-## 🔒 Security Features
-
-- **JWT Authentication**: Secure token-based auth
-- **Password Hashing**: bcryptjs with salt rounds
-- **CORS Protection**: Cross-origin request handling
-- **Input Validation**: Express-validator middleware
-- **Role-based Access**: Protected route middleware
-- **Secure Headers**: Security best practices
-
-## 📊 Performance & Scalability
-
-- **MongoDB Indexing**: Optimized database queries
-- **Socket.IO Rooms**: Efficient event broadcasting
-- **React Optimization**: Component memoization
-- **Lazy Loading**: Route-based code splitting
-- **Caching**: Browser-based caching strategies
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests if applicable
-5. Submit a pull request
-
-## 📄 License
-
-This project is licensed under the MIT License.
-
-## 🆘 Support
-
-For support and questions:
-- Create an issue in the repository
-- Check the documentation
-- Review the code examples
-
-## 🔮 Future Enhancements
-
-- **QR Code Generation**: Parcel identification
-- **Barcode Scanning**: Agent confirmation
-- **Email/SMS Notifications**: Customer updates
-- **Multi-language Support**: Internationalization
-- **Mobile App**: React Native version
-- **Advanced Analytics**: Machine learning insights
-- **Payment Integration**: Online payment processing
-- **Inventory Management**: Warehouse integration
+| Service | URL |
+|:---|:---|
+| 🎨 Frontend | http://localhost:5173 |
+| 🔧 Backend API | http://localhost:5000 |
+| 💚 Health Check | http://localhost:5000/health |
 
 ---
 
+## 📚 API Documentation
+
+### 🔐 Authentication
+
+| Method | Endpoint | Description |
+|:---:|:---|:---|
+| `POST` | `/api/auth/register` | User registration |
+| `POST` | `/api/auth/login` | User authentication |
+
+### 📦 Parcels
+
+| Method | Endpoint | Description |
+|:---:|:---|:---|
+| `GET` | `/api/parcels` | List parcels (role-aware) |
+| `POST` | `/api/parcels` | Create new parcel |
+| `GET` | `/api/parcels/:id` | Get parcel details |
+| `DELETE` | `/api/parcels/:id` | Delete parcel (admin) |
+| `POST` | `/api/parcels/:id/assign` | Assign delivery agent |
+| `POST` | `/api/parcels/:id/status` | Update parcel status |
+| `POST` | `/api/parcels/:id/location` | Update location |
+| `GET` | `/api/parcels/track/:code` | Public tracking |
+
+### 📊 Analytics
+
+| Method | Endpoint | Description |
+|:---:|:---|:---|
+| `GET` | `/api/analytics/dashboard` | Dashboard metrics |
+| `GET` | `/api/analytics/export/csv` | Export to CSV |
+| `GET` | `/api/analytics/export/pdf` | Export to PDF |
+
+### 👥 Users
+
+| Method | Endpoint | Description |
+|:---:|:---|:---|
+| `GET` | `/api/users` | List users (admin) |
+| `GET` | `/api/users/:id` | Get user details |
+
+---
+
+## 🔐 User Roles & Permissions
+
+<table>
+<tr>
+<td align="center" width="33%">
+
+### 👨‍💼 Admin
+- ✅ Full system access
+- ✅ User management
+- ✅ Agent assignment
+- ✅ Analytics & reports
+- ✅ Parcel deletion
+
+</td>
+<td align="center" width="33%">
+
+### 🚚 Delivery Agent
+- ✅ View assigned parcels
+- ✅ Update parcel status
+- ✅ Share live location
+- ✅ Access delivery routes
+- ❌ Admin features
+
+</td>
+<td align="center" width="33%">
+
+### 👤 Customer
+- ✅ Book new parcels
+- ✅ View booking history
+- ✅ Track in real-time
+- ✅ Public tracking links
+- ❌ Agent/Admin features
+
+</td>
+</tr>
+</table>
+
+---
+
+## 🗺️ Mapping Features
+
+<div align="center">
+
+| Feature | Description |
+|:---:|:---|
+| 🆓 **100% Free** | No Google Maps API costs |
+| 📍 **Real-time GPS** | Live agent tracking |
+| 🛣️ **Route Visualization** | Pickup to delivery |
+| 🎯 **Interactive Markers** | Clickable locations |
+| 📱 **Mobile Friendly** | Responsive maps |
+
+</div>
+
+---
+
+## 🔌 Real-time Features
+
+```
+📡 Socket.IO Events
+├── 📦 parcel:update      → Status changes
+├── 📍 location:update    → GPS coordinates
+├── 🚚 agent:tracking     → Live positions
+└── 🔔 notification:new   → Instant alerts
+```
+
+---
+
+## 🧪 Development Scripts
+
+### Backend
+```bash
+npm run dev      # 🔄 Development server
+npm run seed     # 🌱 Seed database
+npm start        # 🚀 Production server
+```
+
+### Frontend
+```bash
+npm run dev      # 🔄 Development server
+npm run build    # 📦 Production build
+npm run lint     # 🔍 Code linting
+npm run preview  # 👁️ Preview build
+```
+
+---
+
+## 🚀 Deployment
+
+<table>
+<tr>
+<td width="50%">
+
+### Backend (Vercel)
+```bash
+# Auto-deploys with vercel.json
+vercel --prod
+```
+- ✅ Serverless functions
+- ✅ Environment variables
+- ✅ MongoDB Atlas ready
+
+</td>
+<td width="50%">
+
+### Frontend (Any Static Host)
+```bash
+npm run build
+# Deploy dist/ folder
+```
+- ✅ Netlify / Vercel
+- ✅ GitHub Pages
+- ✅ AWS S3 / CloudFront
+
+</td>
+</tr>
+</table>
+
+---
+
+## 🔒 Security Features
+
+| Feature | Implementation |
+|:---|:---|
+| 🔑 Authentication | JWT with expiration |
+| 🔐 Password | bcryptjs (10 salt rounds) |
+| 🛡️ CORS | Configured origins |
+| ✅ Validation | express-validator |
+| 🚫 Access Control | Role middleware |
+
+---
+
+## 🤝 Contributing
+
+<div align="center">
+
+```
+1️⃣ Fork → 2️⃣ Branch → 3️⃣ Code → 4️⃣ Test → 5️⃣ PR
+```
+
+</div>
+
+1. **Fork** the repository
+2. **Create** feature branch (`git checkout -b feature/AmazingFeature`)
+3. **Commit** changes (`git commit -m 'Add AmazingFeature'`)
+4. **Push** to branch (`git push origin feature/AmazingFeature`)
+5. **Open** a Pull Request
+
+---
+
+## 🔮 Roadmap
+
+- [ ] 📱 QR Code scanning for parcels
+- [ ] 📧 Email/SMS notifications
+- [ ] 💳 Payment gateway integration
+- [ ] 📊 Advanced analytics with ML
+- [ ] 📱 React Native mobile app
+- [ ] 🏪 Multi-warehouse support
+
+---
+
+## 📄 License
+
+<div align="center">
+
+This project is licensed under the **MIT License**
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
+
+</div>
+
+---
+
+## 🆘 Support
+
+<div align="center">
+
+**Need Help?**
+
+[![Issues](https://img.shields.io/badge/Report-Issues-red?style=for-the-badge&logo=github)](https://github.com/your-repo/issues)
+[![Discussions](https://img.shields.io/badge/Join-Discussions-blue?style=for-the-badge&logo=github)](https://github.com/your-repo/discussions)
+
+</div>
+
+---
+
+<div align="center">
+
+### ⭐ Star this repo if you found it helpful!
+
+<br/>
+
 **Built with ❤️ using the MERN Stack**
+
+<br/>
+
+[![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=flat-square&logo=mongodb&logoColor=white)](https://www.mongodb.com/)
+[![Express.js](https://img.shields.io/badge/Express-000000?style=flat-square&logo=express&logoColor=white)](https://expressjs.com/)
+[![React](https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=react&logoColor=black)](https://reactjs.org/)
+[![Node.js](https://img.shields.io/badge/Node.js-339933?style=flat-square&logo=nodedotjs&logoColor=white)](https://nodejs.org/)
+
+</div>
