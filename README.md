@@ -53,8 +53,9 @@ real-time parcel tracking, role-based access control, and OpenStreetMap integrat
 
 | Role | Email | Password |
 |:----:|:-----:|:--------:|
-| 👨‍💼 **Admin** | `admin@example.com` | `password123` |
-| 🚚 **Agent** | `agent1@example.com` | `password123` |
+| 👨‍💼 **Admin** | `admin@example.com` | `admin123` |
+| 🚚 **Agent** | `agent1@example.com` | `agent123` |
+| 👤 **Customer** | `sabbir1@gmail.com` | `ppppp00000` |
 
 > ⚠️ **Note:** Free tier services may take 30-60 seconds to wake up on first visit.
 
