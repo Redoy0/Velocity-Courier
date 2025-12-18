@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { api } from '../api';
 import { useAuth } from '../context/AuthContext.jsx';
+import { socket } from '../socket';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-routing-machine';
@@ -110,6 +111,42 @@ export default function TrackPublicParcel() {
     if (!parcel) return;
     buildRoute(parcel).catch(() => {});
   }, [parcel, buildRoute]);
+
+  // Socket.IO real-time updates
+  useEffect(() => {
+    if (!parcel?._id) return;
+
+    const handleParcelUpdate = (updatedParcel) => {
+      if (updatedParcel.id === parcel._id || updatedParcel._id === parcel._id) {
+        setParcel(prev => ({ ...prev, ...updatedParcel }));
+      }
+    };
+
+    const handleLocationUpdate = (data) => {
+      if (data.parcelId === parcel._id && data.location) {
+        setParcel(prev => ({ ...prev, currentLocation: data.location }));
+        
+        // Update agent marker on map
+        const map = mapRef.current;
+        if (map) {
+          if (agentMarkerRef.current) {
+            agentMarkerRef.current.setLatLng([data.location.lat, data.location.lng]);
+          } else {
+            const bikeIcon = L.divIcon({ html: '🏍️', className: '', iconSize: [28, 28], iconAnchor: [14, 14] });
+            agentMarkerRef.current = L.marker([data.location.lat, data.location.lng], { icon: bikeIcon }).addTo(map);
+          }
+        }
+      }
+    };
+
+    socket.on('parcel:update', handleParcelUpdate);
+    socket.on('parcel:location', handleLocationUpdate);
+
+    return () => {
+      socket.off('parcel:update', handleParcelUpdate);
+      socket.off('parcel:location', handleLocationUpdate);
+    };
+  }, [parcel?._id]);
 
   useEffect(() => {
     return () => {

@@ -28,6 +28,26 @@ export async function createParcel(req, res) {
 			codAmount: paymentType === 'COD' ? codAmount || 0 : 0,
 			notes
 		});
+
+		// Populate customer details for socket emission
+		await parcel.populate('customer', 'name email');
+
+		// Emit new parcel to all connected clients (especially admin)
+		io.emit('parcel:created', {
+			_id: parcel._id,
+			id: parcel._id,
+			trackingCode: parcel.trackingCode,
+			customer: parcel.customer,
+			pickupAddress: parcel.pickupAddress,
+			deliveryAddress: parcel.deliveryAddress,
+			parcelSize: parcel.parcelSize,
+			parcelType: parcel.parcelType,
+			paymentType: parcel.paymentType,
+			codAmount: parcel.codAmount,
+			status: parcel.status,
+			createdAt: parcel.createdAt
+		});
+
 		res.status(201).json(parcel);
 	} catch (err) {
 		res.status(500).json({ message: 'Create parcel failed' });

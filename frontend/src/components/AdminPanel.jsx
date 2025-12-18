@@ -195,6 +195,17 @@ export default function AdminPanel() {
     
     console.log('Admin dashboard socket setup');
     
+    // Listen for new parcels being created
+    const handleParcelCreated = (newParcel) => {
+      console.log('Admin received new parcel:', newParcel);
+      setParcels(prevParcels => [newParcel, ...prevParcels]);
+      
+      // Refresh metrics when new parcel is created
+      apiFetch('/analytics/dashboard').then(setMetrics).catch(() => {});
+    };
+    
+    socket.on('parcel:created', handleParcelCreated);
+    
     // Listen for parcel updates
     const handleParcelUpdate = (data) => {
       console.log('Admin received parcel update:', data);
@@ -225,6 +236,7 @@ export default function AdminPanel() {
     socket.on('parcel:location', handleLocationUpdate);
     
     return () => {
+      socket.off('parcel:created', handleParcelCreated);
       socket.off('parcel:update', handleParcelUpdate);
       socket.off('parcel:location', handleLocationUpdate);
       socket.disconnect();

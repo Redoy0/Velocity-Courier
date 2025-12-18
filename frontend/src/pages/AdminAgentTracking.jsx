@@ -236,9 +236,12 @@ export default function AdminAgentTracking() {
   useEffect(() => {
     if (!selectedAgent) return;
     
-    const socketUserId = `admin:${user?._id}:${Date.now()}`;
+    const socketUserId = `admin:${user?._id || user?.id}:${Date.now()}`;
     const s = createSocket(socketUserId);
     socketRef.current = s;
+
+    // Request agent's current location immediately
+    s.emit('request:agent:location', { agentId: selectedAgent._id });
 
     const handleAgentLocationUpdate = (data) => {
       if (data.agentId === selectedAgent._id) {
@@ -274,7 +277,7 @@ export default function AdminAgentTracking() {
       s.off('agent:location:update', handleAgentLocationUpdate);
       s.disconnect();
     };
-  }, [selectedAgent, user?._id, agentLocation, lastLocationUpdate, calculateAgentSpeed, mapInitialized, updateAgentMarkerOnMap]);
+  }, [selectedAgent, user, agentLocation, lastLocationUpdate, calculateAgentSpeed, mapInitialized, updateAgentMarkerOnMap]);
 
   // Initialize map when component mounts
   useEffect(() => {

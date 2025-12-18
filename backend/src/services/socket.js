@@ -19,16 +19,36 @@ export function registerSocketHandlers(io) {
 		socket.on('agent:location:update', (data) => {
 			const { agentId, location, timestamp } = data;
 			
-			// Emit location update to all clients tracking parcels assigned to this agent
-			// This will be used by customers tracking their parcels
-			socket.broadcast.emit('agent:location:update', {
+			// Store the latest location in memory (you could also store in Redis/DB)
+			if (!io.agentLocations) {
+				io.agentLocations = new Map();
+			}
+			io.agentLocations.set(agentId, { location, timestamp });
+			
+			// Emit location update to all clients
+			io.emit('agent:location:update', {
 				agentId,
 				location,
 				timestamp
 			});
+		});
+		
+		// Handle request for current agent location
+		socket.on('request:agent:location', (data) => {
+			const { agentId } = data;
 			
-			// Also emit to specific parcel rooms if we have parcel IDs
-			// This will be handled by the parcel controller when updating location
+			// Check if we have stored location
+			if (io.agentLocations && io.agentLocations.has(agentId)) {
+				const locationData = io.agentLocations.get(agentId);
+				socket.emit('agent:location:update', {
+					agentId,
+					location: locationData.location,
+					timestamp: locationData.timestamp
+				});
+			}
+			
+			// Also broadcast request to the agent to send fresh location
+			io.emit('request:agent:location', { agentId });
 		});
 		
 		socket.on('disconnect', () => {

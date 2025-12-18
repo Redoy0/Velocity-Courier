@@ -4,6 +4,7 @@ import { useAuth } from '../context/AuthContext.jsx';
 import { useLanguage } from '../context/LanguageContext.jsx';
 import { getTranslations } from '../translations';
 import { Link } from 'react-router-dom';
+import { createSocket } from '../socket';
 import LanguageSwitcher from '../components/LanguageSwitcher.jsx';
 
 function Navbar({ onLogout, user }) {
@@ -325,12 +326,44 @@ export default function CustomerDashboard() {
   const [parcels, setParcels] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  // Load initial parcels
   useEffect(() => {
     apiFetch('/parcels')
       .then(setParcels)
       .catch(() => {})
       .finally(() => setLoading(false));
   }, []);
+
+  // Socket.IO real-time updates
+  useEffect(() => {
+    const userId = user?._id || user?.id;
+    if (!userId) return;
+
+    const socket = createSocket(`customer-${userId}`);
+
+    // Handle parcel updates
+    const handleParcelUpdate = (updatedParcel) => {
+      setParcels(prevParcels => {
+        const exists = prevParcels.find(p => p._id === updatedParcel.id || p._id === updatedParcel._id);
+        if (exists) {
+          return prevParcels.map(p => 
+            (p._id === updatedParcel.id || p._id === updatedParcel._id) 
+              ? { ...p, ...updatedParcel } 
+              : p
+          );
+        }
+        // If it's a new parcel for this customer, add it
+        return [updatedParcel, ...prevParcels];
+      });
+    };
+
+    socket.on('parcel:update', handleParcelUpdate);
+
+    return () => {
+      socket.off('parcel:update', handleParcelUpdate);
+      socket.disconnect();
+    };
+  }, [user]);
 
   return (
     <div className="min-h-screen bg-surface-50">

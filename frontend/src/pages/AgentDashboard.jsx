@@ -202,16 +202,19 @@ export default function AgentDashboard() {
 
   // Start live geolocation watch for agent position
   useEffect(() => {
-    if (!navigator.geolocation) {
-      console.warn('Geolocation is not supported by this browser');
+    if (!navigator.geolocation || !socket) {
+      if (!navigator.geolocation) {
+        console.warn('Geolocation is not supported by this browser');
+      }
       return;
     }
+    
+    const userId = user?._id || user?.id;
     
     const onSuccess = (pos) => {
       const location = { lat: pos.coords.latitude, lng: pos.coords.longitude };
       setAgentPosition([location.lat, location.lng]);
       
-      const userId = user?._id || user?.id;
       // Emit general live location for admin tracking
       socket?.emit('agent:location:update', { 
         agentId: userId, 
@@ -232,6 +235,20 @@ export default function AgentDashboard() {
     const onError = (error) => {
       console.error('Geolocation error:', error.message);
     };
+    
+    // Listen for location requests from admin
+    const handleLocationRequest = (data) => {
+      if (data.agentId === userId) {
+        // Admin is requesting our location, send it immediately
+        navigator.geolocation.getCurrentPosition(onSuccess, onError, {
+          enableHighAccuracy: true,
+          timeout: 5000,
+          maximumAge: 0
+        });
+      }
+    };
+    
+    socket.on('request:agent:location', handleLocationRequest);
     
     // Get initial position immediately
     navigator.geolocation.getCurrentPosition(onSuccess, onError, {
@@ -256,12 +273,13 @@ export default function AgentDashboard() {
     }
     
     return () => {
+      socket?.off('request:agent:location', handleLocationRequest);
       if (geoWatchIdRef.current != null) {
         navigator.geolocation.clearWatch(geoWatchIdRef.current);
         geoWatchIdRef.current = null;
       }
     };
-  }, [parcels, socket, user?._id]);
+  }, [parcels, socket, user?._id, user?.id]);
 
   // OTP flow handlers
   const requestDeliveryOtp = useCallback(async (parcelId) => {
