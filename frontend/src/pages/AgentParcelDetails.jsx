@@ -220,8 +220,14 @@ export default function AgentParcelDetails() {
   // Geocode addresses
   const geocodeAddress = useCallback(async (query) => {
     try {
+      // Add Bangladesh context to improve results
+      const searchQuery = query.toLowerCase().includes('bangladesh') ? query : `${query}, Bangladesh`;
       const { data } = await api.get('/geocode/search', {
-        params: { q: query, limit: 1 }
+        params: { 
+          q: searchQuery, 
+          limit: 1,
+          countrycodes: 'bd'
+        }
       });
       if (!Array.isArray(data) || data.length === 0) {
         throw new Error('Address not found');

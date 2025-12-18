@@ -123,7 +123,15 @@ export default function ParcelDetailView() {
 
   const geocodeAddress = useCallback(async (query) => {
     try {
-      const { data } = await api.get('/geocode/search', { params: { q: query, limit: 1 } });
+      // Add Bangladesh context to improve results
+      const searchQuery = query.toLowerCase().includes('bangladesh') ? query : `${query}, Bangladesh`;
+      const { data } = await api.get('/geocode/search', { 
+        params: { 
+          q: searchQuery, 
+          limit: 1,
+          countrycodes: 'bd'
+        } 
+      });
       if (!Array.isArray(data) || data.length === 0) throw new Error('Address not found');
       const { lat, lon } = data[0];
       return [parseFloat(lat), parseFloat(lon)];
@@ -252,7 +260,7 @@ export default function ParcelDetailView() {
   }, [status, parcel, t.failedToUpdateStatus]);
 
   const sendCurrentLocation = useCallback(async () => {
-    if (!navigator.geolocation || !parcel?._id) return;
+    if (!navigator.geolocation || !parcel?._id || sendingLocation) return;
     setSendingLocation(true);
     
     navigator.geolocation.getCurrentPosition(async (pos) => {
@@ -280,28 +288,32 @@ export default function ParcelDetailView() {
           const distance = calculateDistance([location.lat, location.lng], routeData.pickup);
           setDistanceToPickup(distance);
         }
+        setSendingLocation(false);
       } catch (err) {
         setError(t.failedToSendLocation);
-      } finally {
         setSendingLocation(false);
       }
-    }, () => {
+    }, (error) => {
+      console.error('Geolocation error:', error);
       setError(t.failedToGetCurrentLocation);
       setSendingLocation(false);
     });
-  }, [parcel?._id, agentId, routeData, calculateDistance, t.failedToSendLocation, t.failedToGetCurrentLocation]);
+  }, [parcel?._id, agentId, routeData?.pickup, calculateDistance, t.failedToSendLocation, t.failedToGetCurrentLocation, sendingLocation]);
 
   // Set up interval to send location every 20 seconds
   useEffect(() => {
     if (!parcel?._id) return;
     
+    // Send initial location
+    sendCurrentLocation();
+    
+    // Set up interval for subsequent updates
     const intervalId = setInterval(() => {
       sendCurrentLocation();
-    }, 20000); // 20 seconds = 20000 milliseconds
+    }, 20000); // 20 seconds
     
-    // Clean up interval on component unmount or when parcel changes
     return () => clearInterval(intervalId);
-  }, [parcel?._id, sendCurrentLocation]);
+  }, [parcel?._id]); // Remove sendCurrentLocation from dependencies to prevent restart loop
 
   const sendCustomLocation = useCallback(async () => {
     if (!locationInput.trim() || !parcel?._id) return;

@@ -25,7 +25,15 @@ export default function TrackPublicParcel() {
   const hasLiveLocation = Boolean(parcel?.currentLocation?.lat && parcel?.currentLocation?.lng);
 
   const geocodeAddress = useCallback(async (query) => {
-    const { data } = await api.get('/geocode/search', { params: { q: query, limit: 1 } });
+    // Add Bangladesh context to improve results
+    const searchQuery = query.toLowerCase().includes('bangladesh') ? query : `${query}, Bangladesh`;
+    const { data } = await api.get('/geocode/search', { 
+      params: { 
+        q: searchQuery, 
+        limit: 1,
+        countrycodes: 'bd'
+      } 
+    });
     if (!Array.isArray(data) || data.length === 0) throw new Error('Address not found');
     const { lat, lon } = data[0];
     return [parseFloat(lat), parseFloat(lon)];

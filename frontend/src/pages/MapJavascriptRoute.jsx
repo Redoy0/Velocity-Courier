@@ -42,7 +42,15 @@ const MapJavascriptRoute = () => {
     }, []);
 
     const geocodeAddress = useCallback(async (query) => {
-        const { data } = await api.get(`/geocode/search`, { params: { q: query, limit: 1 } });
+        // Add Bangladesh context to improve results
+        const searchQuery = query.toLowerCase().includes('bangladesh') ? query : `${query}, Bangladesh`;
+        const { data } = await api.get(`/geocode/search`, { 
+            params: { 
+                q: searchQuery, 
+                limit: 1,
+                countrycodes: 'bd'
+            } 
+        });
         const dataArr = data;
         if (!Array.isArray(dataArr) || dataArr.length === 0) {
             throw new Error('Location not found');
