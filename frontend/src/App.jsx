@@ -17,6 +17,7 @@ import CustomerParcelDetail from './pages/CustomerParcelDetail.jsx';
 import AdminAgentTracking from './pages/AdminAgentTracking.jsx';
 import AgentParcelDetails from './pages/AgentParcelDetails.jsx';
 import AgentParcelPickUpConfirmation from './pages/AgentParcelPickUpConfirmation.jsx';
+import AgentPickupConfirmPage from './pages/AgentPickupConfirmPage.jsx';
 import TrackPublicParcel from './pages/TrackPublicParcel.jsx';
 import CustomerQrScanner from './pages/CustomerQrScanner.jsx';
 
@@ -53,6 +54,7 @@ export default function App() {
                 <Route path="/agent" element={<AgentDashboard />} />
                 <Route path="/parcel/:id" element={<ParcelDetailView />} />
                 <Route path="/agent/pickup-scan" element={<AgentParcelPickUpConfirmation />} />
+                <Route path="/agent/parcel/:id/pickup-confirm" element={<AgentPickupConfirmPage />} />
               </Route>
               <Route element={<CustomerRoute />}>
                 <Route path="/app" element={<CustomerDashboard />} />

@@ -48,9 +48,10 @@ export default function AgentParcelPickUpConfirmation() {
               if (codes && codes.length > 0) {
                 const rawValue = codes[0].rawValue || '';
                 const id = extractParcelId(rawValue);
-                if (id) {
+                if (id && !detectedId) {
                   setDetectedId(id);
-                  await onConfirmPickUp(id);
+                  stopStream();
+                  navigate(`/agent/parcel/${id}/pickup-confirm`);
                 }
               }
             } catch (_) {
@@ -67,9 +68,10 @@ export default function AgentParcelPickUpConfirmation() {
               const result = await zxingReader.decodeOnceFromVideoElement(videoRef.current);
               if (result?.text) {
                 const id = extractParcelId(result.text) || result.text;
-                if (id) {
+                if (id && !detectedId) {
                   setDetectedId(id);
-                  await onConfirmPickUp(id);
+                  stopStream();
+                  navigate(`/agent/parcel/${id}/pickup-confirm`);
                 }
               }
             } catch (_) {
@@ -109,7 +111,8 @@ export default function AgentParcelPickUpConfirmation() {
       setError('Invalid QR content.');
       return;
     }
-    await onConfirmPickUp(id);
+    stopStream();
+    navigate(`/agent/parcel/${id}/pickup-confirm`);
   };
 
   const onConfirmPickUp = useCallback(async (parcelId) => {
@@ -190,6 +193,4 @@ export default function AgentParcelPickUpConfirmation() {
     </div>
   );
 }
-
-
 
