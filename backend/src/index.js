@@ -23,6 +23,8 @@ const io = new SocketIOServer(server, {
 	cors: { origin: corsOrigin }
 });
 
+console.log('Socket.IO CORS origin:', corsOrigin);
+
 registerSocketHandlers(io);
 
 // Middlewares

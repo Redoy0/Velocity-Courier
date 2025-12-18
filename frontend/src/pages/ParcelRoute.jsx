@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { api } from '../api';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+import { createAgentIcon } from '../utils/mapIcons';
 import 'leaflet-routing-machine';
 import 'leaflet-routing-machine/dist/leaflet-routing-machine.css';
 import { socket } from '../socket';
@@ -88,7 +89,7 @@ export default function ParcelRoute() {
 
         // Optional: show current live location if available
         if (parcel.currentLocation?.lat && parcel.currentLocation?.lng) {
-          const icon = L.divIcon({ html: '🏍️', className: '', iconSize: [24, 24], iconAnchor: [12, 12] });
+          const icon = createAgentIcon(32);
           if (!agentMarkerRef.current) {
             agentMarkerRef.current = L.marker([parcel.currentLocation.lat, parcel.currentLocation.lng], { icon }).addTo(map);
           } else {
@@ -110,7 +111,7 @@ export default function ParcelRoute() {
       if (data.id !== parcel._id) return;
       const map = ensureMap();
       if (!map) return;
-      const icon = L.divIcon({ html: '🏍️', className: '', iconSize: [24, 24], iconAnchor: [12, 12] });
+      const icon = createAgentIcon(32);
       if (!agentMarkerRef.current) {
         agentMarkerRef.current = L.marker([data.currentLocation.lat, data.currentLocation.lng], { icon }).addTo(map);
       } else {

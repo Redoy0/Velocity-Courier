@@ -1,6 +1,8 @@
 export function registerSocketHandlers(io) {
 	io.on('connection', socket => {
 		const userId = socket.handshake.query.userId;
+		console.log('✅ Socket.IO client connected:', socket.id, 'userId:', userId);
+		
 		if (userId) {
 			socket.join(`user:${userId}`);
 		}
@@ -29,6 +31,8 @@ export function registerSocketHandlers(io) {
 			// This will be handled by the parcel controller when updating location
 		});
 		
-		socket.on('disconnect', () => {});
+		socket.on('disconnect', () => {
+			console.log('❌ Socket.IO client disconnected:', socket.id);
+		});
 	});
 }

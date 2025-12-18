@@ -20,7 +20,7 @@ function Navbar({ onLogout, user }) {
             </svg>
           </div>
           <div>
-            <span className="font-bold text-surface-900">{t.courierManager}</span>
+            <span className="font-bold text-surface-900">{t.velocityCourier}</span>
             <span className="hidden sm:inline-block ml-2 px-2 py-0.5 text-xs font-medium bg-success-100 text-success-700 rounded-full">Customer</span>
           </div>
         </div>

@@ -3,6 +3,7 @@ import { apiFetch, apiFetchBlob } from '../api';
 import { useLanguage } from '../context/LanguageContext.jsx';
 import { getTranslations } from '../translations';
 import { Link } from 'react-router-dom';
+import { createSocket } from '../socket';
 
 function Stat({ label, value, icon, colorClass }) {
   return (
@@ -186,6 +187,48 @@ export default function AdminPanel() {
       apiFetch('/parcels').then(setParcels).catch(() => {}),
       apiFetch('/assignments/agents').then(setAgents).catch(() => {})
     ]).finally(() => setLoading(false));
+  }, []);
+
+  // Socket.IO real-time updates
+  useEffect(() => {
+    const socket = createSocket('admin-dashboard');
+    
+    console.log('Admin dashboard socket setup');
+    
+    // Listen for parcel updates
+    const handleParcelUpdate = (data) => {
+      console.log('Admin received parcel update:', data);
+      setParcels(prevParcels => 
+        prevParcels.map(p => 
+          p._id === data.id ? { ...p, status: data.status, agent: data.agent || p.agent } : p
+        )
+      );
+      
+      // Refresh metrics when parcel status changes
+      apiFetch('/analytics/dashboard').then(setMetrics).catch(() => {});
+    };
+    
+    socket.on('parcel:update', handleParcelUpdate);
+    
+    // Listen for location updates
+    const handleLocationUpdate = (data) => {
+      console.log('Admin received location update:', data);
+      setParcels(prevParcels =>
+        prevParcels.map(p =>
+          p._id === data.id || p._id === data.parcelId
+            ? { ...p, currentLocation: data.location, etaMinutes: data.etaMinutes }
+            : p
+        )
+      );
+    };
+    
+    socket.on('parcel:location', handleLocationUpdate);
+    
+    return () => {
+      socket.off('parcel:update', handleParcelUpdate);
+      socket.off('parcel:location', handleLocationUpdate);
+      socket.disconnect();
+    };
   }, []);
 
   const filteredParcels = useMemo(() => {

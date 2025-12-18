@@ -1,6 +1,6 @@
 export const en = {
   // Common
-  courierManager: 'Velocity Courier',
+  velocityCourier: 'Velocity Courier',
   logout: 'Logout',
   connected: 'Connected',
   disconnected: 'Disconnected',
@@ -86,9 +86,20 @@ export const en = {
   somethingWentWrong: 'Something went wrong',
   
   // Placeholders
-  johnDoe: 'John Doe',
+  johnDoe: 'Sabbir Ahamed',
   emailPlaceholder: 'you@example.com',
   passwordPlaceholder: '••••••••',
+  
+  // Login Page Branding
+  trustedPartnerTagline: 'Your trusted partner for seamless parcel delivery and real-time tracking solutions.',
+  realtimeGpsTracking: 'Real-time GPS Tracking',
+  secureReliableService: 'Secure & Reliable Service',
+  fastEfficientDelivery: 'Fast & Efficient Delivery',
+  welcomeBack: 'Welcome back',
+  signInToAccount: 'Sign in to your account',
+  createAccount: 'Create account',
+  getStartedWithAccount: 'Get started with your account',
+  copyrightFooter: '© 2025 Velocity Courier. All rights reserved.',
   
   // Language names
   english: 'English',

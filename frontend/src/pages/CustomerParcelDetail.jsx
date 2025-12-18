@@ -7,6 +7,7 @@ import { getTranslations } from '../translations';
 import { createSocket } from '../socket';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+import { createAgentIcon } from '../utils/mapIcons';
 import 'leaflet-routing-machine';
 import 'leaflet-routing-machine/dist/leaflet-routing-machine.css';
 
@@ -387,12 +388,7 @@ export default function CustomerParcelDetail() {
     
     console.log('CustomerParcelDetail: Adding/updating agent marker at:', location);
 
-    const bikeIcon = L.divIcon({
-      html: '🏍️',
-      className: '',
-      iconSize: [36, 36],
-      iconAnchor: [18, 18]
-    });
+    const bikeIcon = createAgentIcon(36);
 
     if (!agentMarkerRef.current) {
       console.log('CustomerParcelDetail: Creating new agent marker');

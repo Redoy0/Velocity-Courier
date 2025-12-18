@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+import { createAgentIcon } from '../utils/mapIcons';
 import 'leaflet-routing-machine';
 import 'leaflet-routing-machine/dist/leaflet-routing-machine.css';
 import { socket } from '../socket';
@@ -131,8 +132,7 @@ const MapJavascriptRoute = () => {
         const map = ensureMap(riderLocation);
         if (!map) return;
 
-        // Small bike icon using a div icon (emoji)
-        const bikeIcon = L.divIcon({ html: '🏍️', className: '', iconSize: [24, 24], iconAnchor: [12, 12] });
+        const bikeIcon = createAgentIcon(32);
 
         if (!riderMarkerRef.current) {
             riderMarkerRef.current = L.marker(riderLocation, { icon: bikeIcon }).addTo(map);

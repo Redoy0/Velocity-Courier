@@ -7,6 +7,7 @@ import { getTranslations } from '../translations';
 import { createSocket } from '../socket';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+import { createAgentIcon } from '../utils/mapIcons';
 import 'leaflet-routing-machine';
 import 'leaflet-routing-machine/dist/leaflet-routing-machine.css';
 
@@ -215,7 +216,7 @@ export default function ParcelDetailView() {
     if (!agentLocation || !mapRef.current) return;
     const map = mapRef.current;
 
-    const bikeIcon = L.divIcon({ html: '🏍️', className: '', iconSize: [24, 24], iconAnchor: [12, 12] });
+    const bikeIcon = createAgentIcon(32);
     if (!agentMarkerRef.current) {
       agentMarkerRef.current = L.marker(agentLocation, { icon: bikeIcon }).addTo(map);
     } else {

@@ -1,6 +1,6 @@
 export const bn = {
   // Common
-  courierManager: 'কুরিয়ার ম্যানেজার',
+  velocityCourier: ' ভেলোসিটি কুরিয়ার',
   logout: 'লগআউট',
   connected: 'সংযুক্ত',
   disconnected: 'সংযোগ বিচ্ছিন্ন',
@@ -86,9 +86,20 @@ export const bn = {
   somethingWentWrong: 'কিছু ভুল হয়েছে',
   
   // Placeholders
-  johnDoe: 'জন ডো',
+  johnDoe: 'সাব্বির আহমেদ',
   emailPlaceholder: 'আপনি@উদাহরণ.com',
   passwordPlaceholder: '••••••••',
+  
+  // Login Page Branding
+  trustedPartnerTagline: 'নির্বিঘ্ন পার্সেল ডেলিভারি এবং রিয়েল-টাইম ট্র্যাকিং সমাধানের জন্য আপনার বিশ্বস্ত অংশীদার।',
+  realtimeGpsTracking: 'রিয়েল-টাইম জিপিএস ট্র্যাকিং',
+  secureReliableService: 'নিরাপদ এবং নির্ভরযোগ্য সেবা',
+  fastEfficientDelivery: 'দ্রুত এবং দক্ষ ডেলিভারি',
+  welcomeBack: 'স্বাগতম',
+  signInToAccount: 'আপনার অ্যাকাউন্টে সাইন ইন করুন',
+  createAccount: 'অ্যাকাউন্ট তৈরি করুন',
+  getStartedWithAccount: 'আপনার অ্যাকাউন্ট দিয়ে শুরু করুন',
+  copyrightFooter: '© ২০২৫ ভেলোসিটি কুরিয়ার। সর্বস্বত্ব সংরক্ষিত।',
   
   // Language names
   english: 'English',

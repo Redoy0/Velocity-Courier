@@ -49,9 +49,9 @@ export default function LoginPage() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
               </svg>
             </div>
-            <h1 className="text-4xl font-bold mb-4">{t.courierManager}</h1>
+            <h1 className="text-4xl font-bold mb-4">{t.velocityCourier}</h1>
             <p className="text-xl text-brand-100 leading-relaxed">
-              Your trusted partner for seamless parcel delivery and real-time tracking solutions.
+              {t.trustedPartnerTagline}
             </p>
           </div>
           
@@ -63,7 +63,7 @@ export default function LoginPage() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                 </svg>
               </div>
-              <span className="text-brand-100">Real-time GPS Tracking</span>
+              <span className="text-brand-100">{t.realtimeGpsTracking}</span>
             </div>
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center">
@@ -71,7 +71,7 @@ export default function LoginPage() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                 </svg>
               </div>
-              <span className="text-brand-100">Secure & Reliable Service</span>
+              <span className="text-brand-100">{t.secureReliableService}</span>
             </div>
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center">
@@ -79,7 +79,7 @@ export default function LoginPage() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                 </svg>
               </div>
-              <span className="text-brand-100">Fast & Efficient Delivery</span>
+              <span className="text-brand-100">{t.fastEfficientDelivery}</span>
             </div>
           </div>
         </div>
@@ -95,7 +95,7 @@ export default function LoginPage() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
               </svg>
             </div>
-            <h1 className="text-2xl font-bold text-surface-900">{t.courierManager}</h1>
+            <h1 className="text-2xl font-bold text-surface-900">{t.velocityCourier}</h1>
           </div>
 
           {/* Card */}
@@ -104,10 +104,10 @@ export default function LoginPage() {
             <div className="flex items-center justify-between mb-8">
               <div>
                 <h2 className="text-2xl font-bold text-surface-900">
-                  {mode === 'login' ? 'Welcome back' : 'Create account'}
+                  {mode === 'login' ? t.welcomeBack : t.createAccount}
                 </h2>
                 <p className="text-surface-500 mt-1">
-                  {mode === 'login' ? 'Sign in to your account' : 'Get started with your account'}
+                  {mode === 'login' ? t.signInToAccount : t.getStartedWithAccount}
                 </p>
               </div>
               <LanguageSwitcher />
@@ -238,7 +238,7 @@ export default function LoginPage() {
 
           {/* Footer */}
           <p className="text-center text-sm text-surface-500 mt-6">
-            © 2025 Velocity Courier. All rights reserved.
+            {t.copyrightFooter}
           </p>
         </div>
       </div>

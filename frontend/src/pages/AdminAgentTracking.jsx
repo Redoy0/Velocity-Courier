@@ -7,6 +7,7 @@ import { getTranslations } from '../translations';
 import { createSocket } from '../socket';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+import { createAgentIcon } from '../utils/mapIcons';
 
 // Fix default marker icons in bundlers like Vite
 import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
@@ -113,12 +114,7 @@ export default function AdminAgentTracking() {
     const locationArray = [location.lat, location.lng];
 
     try {
-      const bikeIcon = L.divIcon({
-        html: '🏍️',
-        className: '',
-        iconSize: [36, 36],
-        iconAnchor: [18, 18]
-      });
+      const bikeIcon = createAgentIcon(36);
 
       if (!agentMarkerRef.current) {
         agentMarkerRef.current = L.marker(locationArray, { icon: bikeIcon }).addTo(map);

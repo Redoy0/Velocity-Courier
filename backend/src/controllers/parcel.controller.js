@@ -91,7 +91,13 @@ export async function assignAgent(req, res) {
 		parcel.status = 'Assigned';
 		await parcel.save();
 		const populated = await Parcel.findById(parcel.id).populate('customer', 'name email').populate('agent', 'name email');
+		
+		// Emit to specific parcel room
 		io.to(`parcel:${parcel.id}`).emit('parcel:update', { id: parcel.id, status: parcel.status, agent: populated.agent });
+		
+		// Broadcast to all connected clients (for admin dashboard)
+		io.emit('parcel:update', { id: parcel.id, status: parcel.status, agent: populated.agent });
+		
 		res.json(populated);
 	} catch (err) {
 		res.status(500).json({ message: 'Assignment failed' });
@@ -112,7 +118,13 @@ export async function updateStatus(req, res) {
 		}
 		parcel.status = status;
 		await parcel.save();
+		
+		// Emit to specific parcel room (for customers tracking this parcel)
 		io.to(`parcel:${parcel.id}`).emit('parcel:update', { id: parcel.id, status: parcel.status });
+		
+		// Broadcast to all connected clients (for admin dashboard)
+		io.emit('parcel:update', { id: parcel.id, status: parcel.status });
+		
 		// Best-effort email to customer
 		try {
 			const to = parcel?.customer?.email;
@@ -137,12 +149,22 @@ export async function updateLocation(req, res) {
 		parcel.currentLocation = { lat, lng, updatedAt: new Date() };
 		if (etaMinutes != null) parcel.etaMinutes = etaMinutes;
 		await parcel.save();
-		io.to(`parcel:${parcel.id}`).emit('parcel:location', {
+		
+		const locationData = {
 			id: parcel.id,
+			parcelId: parcel.id,
 			trackingCode: parcel.trackingCode,
 			currentLocation: parcel.currentLocation,
+			location: parcel.currentLocation,
 			etaMinutes: parcel.etaMinutes
-		});
+		};
+		
+		// Emit to specific parcel room
+		io.to(`parcel:${parcel.id}`).emit('parcel:location', locationData);
+		
+		// Broadcast to all connected clients (for admin dashboard)
+		io.emit('parcel:location', locationData);
+		
 		res.json(parcel);
 	} catch (err) {
 		res.status(500).json({ message: 'Update location failed' });

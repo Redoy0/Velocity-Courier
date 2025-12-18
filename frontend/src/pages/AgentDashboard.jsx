@@ -7,6 +7,7 @@ import { createSocket } from '../socket';
 import { Link } from 'react-router-dom';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+import { createAgentIcon } from '../utils/mapIcons';
 import LanguageSwitcher from '../components/LanguageSwitcher.jsx';
 
 import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
@@ -35,7 +36,7 @@ function Navbar({ onLogout, user, isConnected }) {
             </svg>
           </div>
           <div>
-            <span className="font-bold text-surface-900">{t.courierManager}</span>
+            <span className="font-bold text-surface-900">{t.velocityCourier}</span>
             <span className="hidden sm:inline-block ml-2 px-2 py-0.5 text-xs font-medium bg-info-100 text-info-700 rounded-full">Agent</span>
           </div>
         </div>
@@ -108,7 +109,8 @@ function LiveMap({ agentPosition }) {
     if (!agentPosition) return;
     const map = ensureMap(agentPosition, 13);
     if (!map) return;
-    const icon = L.divIcon({ html: '🏍️', className: '', iconSize: [32, 32], iconAnchor: [16, 16] });
+    const icon = createAgentIcon(48);
+    
     if (!agentMarkerRef.current) {
       agentMarkerRef.current = L.marker(agentPosition, { icon }).addTo(map);
       map.setView(agentPosition, 14, { animate: true });
@@ -167,42 +169,97 @@ export default function AgentDashboard() {
 
   // Create user-specific socket
   useEffect(() => {
-    if (user?._id) {
-      const userSocket = createSocket(user._id);
+    const userId = user?._id || user?.id;
+    if (userId) {
+      const userSocket = createSocket(userId);
+      
+      // Set up connection status listeners
+      const handleConnect = () => {
+        setIsConnected(true);
+      };
+      
+      const handleDisconnect = () => {
+        setIsConnected(false);
+      };
+      
+      userSocket.on('connect', handleConnect);
+      userSocket.on('disconnect', handleDisconnect);
+      
+      // Check if socket is already connected
+      if (userSocket.connected) {
+        setIsConnected(true);
+      }
+      
       setSocket(userSocket);
       
       return () => {
+        userSocket.off('connect', handleConnect);
+        userSocket.off('disconnect', handleDisconnect);
         userSocket.disconnect();
       };
     }
-  }, [user?._id]);
+  }, [user?._id, user?.id]);
 
-  // Start/stop live geolocation watch when any parcel is In Transit
+  // Start live geolocation watch for agent position
   useEffect(() => {
-    const inTransit = parcels.filter(p => p.status === 'In Transit');
-    if (inTransit.length === 0) {
-      if (geoWatchIdRef.current != null) navigator.geolocation.clearWatch(geoWatchIdRef.current);
-      geoWatchIdRef.current = null;
+    if (!navigator.geolocation) {
+      console.warn('Geolocation is not supported by this browser');
       return;
     }
-    if (!navigator.geolocation) return;
+    
     const onSuccess = (pos) => {
       const location = { lat: pos.coords.latitude, lng: pos.coords.longitude };
       setAgentPosition([location.lat, location.lng]);
-      // emit general live location
-      socket?.emit('agent:location:update', { agentId: user._id, location, timestamp: new Date().toISOString() });
-      // update all in-transit parcels so customers tracking parcel get parcel-specific updates
+      
+      const userId = user?._id || user?.id;
+      // Emit general live location for admin tracking
+      socket?.emit('agent:location:update', { 
+        agentId: userId, 
+        location, 
+        timestamp: new Date().toISOString() 
+      });
+      
+      // Update location for all in-transit parcels
+      const inTransit = parcels.filter(p => p.status === 'In Transit');
       inTransit.forEach(p => {
-        apiFetch(`/parcels/${p._id}/location`, { method: 'POST', body: JSON.stringify(location) }).catch(() => {});
+        apiFetch(`/parcels/${p._id}/location`, { 
+          method: 'POST', 
+          body: JSON.stringify(location) 
+        }).catch(() => {});
       });
     };
-    const onError = () => {};
+    
+    const onError = (error) => {
+      console.error('Geolocation error:', error.message);
+    };
+    
+    // Get initial position immediately
+    navigator.geolocation.getCurrentPosition(onSuccess, onError, {
+      enableHighAccuracy: true,
+      timeout: 10000,
+      maximumAge: 0
+    });
+    
+    // Start watching position continuously
     try {
-      geoWatchIdRef.current = navigator.geolocation.watchPosition(onSuccess, onError, { enableHighAccuracy: true, maximumAge: 2000, timeout: 10000 });
-    } catch (_) {}
+      geoWatchIdRef.current = navigator.geolocation.watchPosition(
+        onSuccess, 
+        onError, 
+        { 
+          enableHighAccuracy: true, 
+          maximumAge: 2000, 
+          timeout: 10000 
+        }
+      );
+    } catch (err) {
+      console.error('Error starting geolocation watch:', err);
+    }
+    
     return () => {
-      if (geoWatchIdRef.current != null) navigator.geolocation.clearWatch(geoWatchIdRef.current);
-      geoWatchIdRef.current = null;
+      if (geoWatchIdRef.current != null) {
+        navigator.geolocation.clearWatch(geoWatchIdRef.current);
+        geoWatchIdRef.current = null;
+      }
     };
   }, [parcels, socket, user?._id]);
 
@@ -234,19 +291,9 @@ export default function AgentDashboard() {
     apiFetch('/parcels').then(setParcels).catch(()=>{});
   }, []);
 
-  // Socket.IO connection and event listeners
+  // Socket.IO event listeners for parcel updates
   useEffect(() => {
     if (!socket) return;
-
-    // Check socket connection status
-    const handleConnect = () => setIsConnected(true);
-    const handleDisconnect = () => setIsConnected(false);
-    
-    socket.on('connect', handleConnect);
-    socket.on('disconnect', handleDisconnect);
-    
-    // Set initial connection status
-    setIsConnected(socket.connected);
     
     // Listen for parcel updates from other sources
     const handleParcelUpdate = (updatedParcel) => {
@@ -267,8 +314,6 @@ export default function AgentDashboard() {
     socket.on('parcel:location', handleLocationUpdate);
     
     return () => {
-      socket.off('connect', handleConnect);
-      socket.off('disconnect', handleDisconnect);
       socket.off('parcel:update', handleParcelUpdate);
       socket.off('parcel:location', handleLocationUpdate);
     };
