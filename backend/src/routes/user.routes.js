@@ -11,8 +11,15 @@ router.get('/me', async (req, res) => {
 	res.json({ id: user._id, name: user.name, email: user.email, role: user.role });
 });
 
-router.get('/', requireRoles('admin'), async (_req, res) => {
-	const users = await User.find().select('-password').lean();
+router.get('/', requireRoles('admin'), async (req, res) => {
+	const filter = {};
+	
+	// Filter by role if provided in query params
+	if (req.query.role) {
+		filter.role = req.query.role;
+	}
+	
+	const users = await User.find(filter).select('-password').lean();
 	res.json(users);
 });
 

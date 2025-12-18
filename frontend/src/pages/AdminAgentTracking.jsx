@@ -39,6 +39,33 @@ export default function AdminAgentTracking() {
   const [parcelsLoading, setParcelsLoading] = useState(false);
   const [mapInitialized, setMapInitialized] = useState(false);
   const [mapError, setMapError] = useState('');
+  
+  // Filter states
+  const [filterStatus, setFilterStatus] = useState('all');
+  const [filterSearch, setFilterSearch] = useState('');
+  
+  // Filtered parcels based on filters
+  const filteredParcels = agentParcels.filter(parcel => {
+    // Status filter
+    if (filterStatus !== 'all' && parcel.status !== filterStatus) {
+      return false;
+    }
+    
+    // Search filter (tracking code, pickup address, delivery address)
+    if (filterSearch.trim()) {
+      const searchLower = filterSearch.toLowerCase();
+      const matchesTracking = parcel.trackingCode?.toLowerCase().includes(searchLower);
+      const matchesPickup = parcel.pickupAddress?.toLowerCase().includes(searchLower);
+      const matchesDelivery = parcel.deliveryAddress?.toLowerCase().includes(searchLower);
+      const matchesType = parcel.parcelType?.toLowerCase().includes(searchLower);
+      
+      if (!matchesTracking && !matchesPickup && !matchesDelivery && !matchesType) {
+        return false;
+      }
+    }
+    
+    return true;
+  });
 
   const socketRef = useRef(null);
   const mapRef = useRef(null);
@@ -198,6 +225,8 @@ export default function AdminAgentTracking() {
     setAgentSpeed(null);
     setPreviousAgentLocation(null);
     setLastLocationUpdate(null);
+    setFilterStatus('all');
+    setFilterSearch('');
     
     api.get(`/parcels?agent=${selectedAgent._id}`)
       .then(res => {
@@ -567,20 +596,92 @@ export default function AdminAgentTracking() {
             {/* Parcels Assigned to Agent */}
             <div className="card">
               <div className="card-header">
-                <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-brand-100 text-brand-600">
-                    <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
-                    </svg>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-brand-100 text-brand-600">
+                      <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                      </svg>
+                    </div>
+                    <div>
+                      <h2 className="text-lg font-semibold text-surface-900">Parcels Assigned to Agent</h2>
+                      <p className="text-sm text-surface-500">
+                        {selectedAgent ? `Showing parcels for ${selectedAgent.name}` : 'Select an agent to view parcels'}
+                      </p>
+                    </div>
                   </div>
-                  <div>
-                    <h2 className="text-lg font-semibold text-surface-900">Parcels Assigned to Agent</h2>
-                    <p className="text-sm text-surface-500">
-                      {selectedAgent ? `Showing parcels for ${selectedAgent.name}` : 'Select an agent to view parcels'}
-                    </p>
-                  </div>
+                  <span className="badge-info text-sm">
+                    {filteredParcels.length} of {agentParcels.length}
+                  </span>
                 </div>
               </div>
+              
+              {/* Filter Section */}
+              {agentParcels.length > 0 && (
+                <div className="px-6 py-4 bg-surface-50 border-b border-surface-200">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {/* Status Filter */}
+                    <div>
+                      <label className="block text-xs font-semibold text-surface-700 mb-2 uppercase tracking-wide">Filter by Status</label>
+                      <select 
+                        value={filterStatus}
+                        onChange={(e) => setFilterStatus(e.target.value)}
+                        className="select text-sm"
+                      >
+                        <option value="all">All Statuses</option>
+                        <option value="Pending">Pending</option>
+                        <option value="Assigned">Assigned</option>
+                        <option value="Picked Up">Picked Up</option>
+                        <option value="In Transit">In Transit</option>
+                        <option value="Delivered">Delivered</option>
+                        <option value="Failed">Failed</option>
+                      </select>
+                    </div>
+                    
+                    {/* Search Filter */}
+                    <div>
+                      <label className="block text-xs font-semibold text-surface-700 mb-2 uppercase tracking-wide">Search Parcels</label>
+                      <div className="relative">
+                        <input
+                          type="text"
+                          value={filterSearch}
+                          onChange={(e) => setFilterSearch(e.target.value)}
+                          placeholder="Tracking code, address, type..."
+                          className="input text-sm pl-9"
+                        />
+                        <svg className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-surface-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {/* Clear Filters */}
+                  {(filterStatus !== 'all' || filterSearch.trim()) && (
+                    <div className="mt-3 flex items-center justify-between">
+                      <p className="text-xs text-surface-600">
+                        {filteredParcels.length === 0 ? (
+                          <span className="text-warning-600">No parcels match the current filters</span>
+                        ) : (
+                          <span>Showing {filteredParcels.length} of {agentParcels.length} parcels</span>
+                        )}
+                      </p>
+                      <button
+                        onClick={() => {
+                          setFilterStatus('all');
+                          setFilterSearch('');
+                        }}
+                        className="text-xs text-brand-600 hover:text-brand-700 font-medium flex items-center gap-1"
+                      >
+                        <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                        Clear Filters
+                      </button>
+                    </div>
+                  )}
+                </div>
+              )}
               <div className="card-body p-0">
                 {!selectedAgent ? (
                   <div className="flex flex-col items-center justify-center py-12 text-center">
@@ -607,9 +708,26 @@ export default function AdminAgentTracking() {
                     <h4 className="text-lg font-medium text-surface-900">No parcels assigned</h4>
                     <p className="text-surface-500">This agent doesn't have any parcels yet.</p>
                   </div>
+                ) : filteredParcels.length === 0 ? (
+                  <div className="flex flex-col items-center justify-center py-12 text-center">
+                    <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-warning-100">
+                      <span className="text-3xl">🔍</span>
+                    </div>
+                    <h4 className="text-lg font-medium text-surface-900">No matching parcels</h4>
+                    <p className="text-surface-500">Try adjusting your filters to see more results.</p>
+                    <button
+                      onClick={() => {
+                        setFilterStatus('all');
+                        setFilterSearch('');
+                      }}
+                      className="mt-4 btn-primary text-sm"
+                    >
+                      Clear All Filters
+                    </button>
+                  </div>
                 ) : (
                   <div className="divide-y divide-surface-100">
-                    {agentParcels.map(parcel => (
+                    {filteredParcels.map(parcel => (
                       <div key={parcel._id} className="p-5 hover:bg-surface-50 transition-colors">
                         <div className="flex items-start justify-between gap-4">
                           <div className="flex-1 min-w-0">

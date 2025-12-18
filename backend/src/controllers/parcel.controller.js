@@ -39,8 +39,16 @@ export async function listParcels(req, res) {
 		const role = req.user.role;
 		const userId = req.user.id;
 		const filter = {};
-		if (role === 'customer') filter.customer = userId;
-		if (role === 'agent') filter.agent = userId;
+		
+		// Admin can filter by agent ID from query params
+		if (role === 'admin' && req.query.agent) {
+			filter.agent = req.query.agent;
+		} else if (role === 'customer') {
+			filter.customer = userId;
+		} else if (role === 'agent') {
+			filter.agent = userId;
+		}
+		
 		const parcels = await Parcel.find(filter)
 			.sort({ createdAt: -1 })
 			.populate('customer', 'name email')
