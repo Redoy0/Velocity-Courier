@@ -165,6 +165,8 @@ export default function AgentDashboard() {
   const [socket, setSocket] = useState(null);
   const [agentPosition, setAgentPosition] = useState(null);
   const geoWatchIdRef = useRef(null);
+  const lastLocationUpdateRef = useRef(null);
+  const lastLocationRef = useRef(null);
   const [otpModal, setOtpModal] = useState({ open: false, parcelId: null, step: 'request', code: '', sending: false, error: '' });
 
   // Create user-specific socket
@@ -211,25 +213,64 @@ export default function AgentDashboard() {
     
     const userId = user?._id || user?.id;
     
+    // Helper to calculate distance between two points (in meters)
+    const getDistance = (lat1, lng1, lat2, lng2) => {
+      const R = 6371e3; // Earth's radius in meters
+      const φ1 = lat1 * Math.PI / 180;
+      const φ2 = lat2 * Math.PI / 180;
+      const Δφ = (lat2 - lat1) * Math.PI / 180;
+      const Δλ = (lng2 - lng1) * Math.PI / 180;
+      const a = Math.sin(Δφ/2) * Math.sin(Δφ/2) +
+                Math.cos(φ1) * Math.cos(φ2) *
+                Math.sin(Δλ/2) * Math.sin(Δλ/2);
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+      return R * c;
+    };
+    
     const onSuccess = (pos) => {
       const location = { lat: pos.coords.latitude, lng: pos.coords.longitude };
-      setAgentPosition([location.lat, location.lng]);
+      const now = Date.now();
       
-      // Emit general live location for admin tracking
-      socket?.emit('agent:location:update', { 
-        agentId: userId, 
-        location, 
-        timestamp: new Date().toISOString() 
-      });
+      // Check if enough time has passed (throttle to 10 seconds)
+      const timeSinceLastUpdate = lastLocationUpdateRef.current 
+        ? now - lastLocationUpdateRef.current 
+        : Infinity;
       
-      // Update location for all in-transit parcels
-      const inTransit = parcels.filter(p => p.status === 'In Transit');
-      inTransit.forEach(p => {
-        apiFetch(`/parcels/${p._id}/location`, { 
-          method: 'POST', 
-          body: JSON.stringify(location) 
-        }).catch(() => {});
-      });
+      // Check if location changed significantly (more than 10 meters)
+      const locationChanged = !lastLocationRef.current || 
+        getDistance(
+          lastLocationRef.current.lat, 
+          lastLocationRef.current.lng,
+          location.lat, 
+          location.lng
+        ) > 10;
+      
+      // Only update if 10+ seconds passed OR location changed significantly
+      if (timeSinceLastUpdate > 10000 || locationChanged) {
+        setAgentPosition([location.lat, location.lng]);
+        
+        // Emit general live location for admin tracking
+        socket?.emit('agent:location:update', { 
+          agentId: userId, 
+          location, 
+          timestamp: new Date().toISOString() 
+        });
+        
+        // Update location for all in-transit parcels (only if changed)
+        const inTransit = parcels.filter(p => p.status === 'In Transit');
+        if (inTransit.length > 0) {
+          inTransit.forEach(p => {
+            apiFetch(`/parcels/${p._id}/location`, { 
+              method: 'POST', 
+              body: JSON.stringify(location) 
+            }).catch(() => {});
+          });
+        }
+        
+        // Update refs
+        lastLocationUpdateRef.current = now;
+        lastLocationRef.current = location;
+      }
     };
     
     const onError = (error) => {
@@ -264,7 +305,7 @@ export default function AgentDashboard() {
         onError, 
         { 
           enableHighAccuracy: true, 
-          maximumAge: 2000, 
+          maximumAge: 5000, // Increased from 2000 to 5000ms
           timeout: 10000 
         }
       );
