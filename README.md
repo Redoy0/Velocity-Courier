@@ -45,7 +45,7 @@ real-time parcel tracking, role-based access control, and OpenStreetMap integrat
 
 | Service | URL | Status |
 |:-------:|:---:|:------:|
-| 🎨 **Frontend** | [https://velocity-courier.netlify.app/](https://calm-buttercream-d655c7.netlify.app) | [![Netlify Status](https://img.shields.io/badge/Netlify-Live-00C7B7?logo=netlify)](https://calm-buttercream-d655c7.netlify.app) |
+| 🎨 **Frontend** | [https://velocity-courier.netlify.app](https://velocity-courier.netlify.app) | [![Netlify Status](https://img.shields.io/badge/Netlify-Live-00C7B7?logo=netlify)](https://velocity-courier.netlify.app) |
 | 🔧 **Backend API** | [velocity-courier-api.onrender.com](https://velocity-courier-api.onrender.com) | [![API Status](https://img.shields.io/badge/Render-Live-46E3B7?logo=render)](https://velocity-courier-api.onrender.com/health) |
 | 🗄️ **Database** | MongoDB Atlas | [![DB Status](https://img.shields.io/badge/MongoDB-Connected-47A248?logo=mongodb)](https://www.mongodb.com/) |
 
