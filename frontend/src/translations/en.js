@@ -1,6 +1,6 @@
 export const en = {
   // Common
-  velocityCourier: 'Velocity Courier',
+  scpmsTitle: 'Smart Courier Management System',
   logout: 'Logout',
   connected: 'Connected',
   disconnected: 'Disconnected',
@@ -91,15 +91,15 @@ export const en = {
   passwordPlaceholder: '••••••••',
   
   // Login Page Branding
-  trustedPartnerTagline: 'Your trusted partner for seamless parcel delivery and real-time tracking solutions.',
-  realtimeGpsTracking: 'Real-time GPS Tracking',
-  secureReliableService: 'Secure & Reliable Service',
-  fastEfficientDelivery: 'Fast & Efficient Delivery',
+  trustedPartnerTagline: 'A thesis-oriented web platform for intelligent parcel workflow management, live tracking, and operational analytics.',
+  realtimeGpsTracking: 'Live location intelligence',
+  secureReliableService: 'Role-based access control',
+  fastEfficientDelivery: 'Delivery analytics and optimization',
   welcomeBack: 'Welcome back',
   signInToAccount: 'Sign in to your account',
   createAccount: 'Create account',
-  getStartedWithAccount: 'Get started with your account',
-  copyrightFooter: '© 2025 Velocity Courier. All rights reserved.',
+  getStartedWithAccount: 'Access the academic demonstration portal',
+  copyrightFooter: '© 2026 Smart Courier Management System. All rights reserved.',
   
   // Language names
   english: 'English',

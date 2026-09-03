@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: velocity-courier-api
+    name: scpms-api
     env: node
     region: oregon
     plan: free

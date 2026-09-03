@@ -18,7 +18,7 @@ function Navbar({ onLogout, user }) {
             </svg>
           </div>
           <div>
-            <span className="font-bold text-surface-900">{t.velocityCourier}</span>
+            <span className="font-bold text-surface-900">{t.scpmsTitle}</span>
             <span className="hidden sm:inline-block ml-2 px-2 py-0.5 text-xs font-medium bg-brand-100 text-brand-700 rounded-full">Admin</span>
           </div>
         </div>
@@ -68,7 +68,7 @@ export default function AdminDashboard() {
                 </span>
                 {t.adminDashboard}
               </h1>
-              <p className="page-subtitle">Manage parcels, agents, and track deliveries in real-time</p>
+              <p className="page-subtitle">Academic control center for parcel workflows, agent allocation, and live operational visibility</p>
             </div>
             <button
               onClick={() => window.location.href = '/admin/tracking'}

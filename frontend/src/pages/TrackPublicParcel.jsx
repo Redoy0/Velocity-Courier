@@ -176,7 +176,7 @@ export default function TrackPublicParcel() {
         <div className="container flex h-14 items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="h-8 w-8 rounded bg-brand-600 text-white grid place-items-center font-bold">C</div>
-            <span className="font-semibold">Velocity Courier</span>
+            <span className="font-semibold">Smart Courier Management System</span>
           </div>
           <div className="flex items-center gap-3">
             {user ? (

@@ -36,7 +36,7 @@ function Navbar({ onLogout, user, isConnected }) {
             </svg>
           </div>
           <div>
-            <span className="font-bold text-surface-900">{t.velocityCourier}</span>
+            <span className="font-bold text-surface-900">{t.scpmsTitle}</span>
             <span className="hidden sm:inline-block ml-2 px-2 py-0.5 text-xs font-medium bg-info-100 text-info-700 rounded-full">Agent</span>
           </div>
         </div>
@@ -134,7 +134,23 @@ function LiveMap({ agentPosition }) {
           <p className="text-sm text-surface-500">Your current location</p>
         </div>
       </div>
-      <div ref={mapElRef} className="h-80 w-full overflow-hidden rounded-xl border border-surface-200" />
+      <div className="relative h-80 w-full overflow-hidden rounded-xl border border-surface-200">
+        <div ref={mapElRef} className="h-full w-full" />
+        {!agentPosition && (
+          <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-surface-50 text-center">
+            <div className="flex h-14 w-14 items-center justify-center rounded-full bg-info-100">
+              <svg className="h-7 w-7 text-info-500 animate-pulse-soft" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+            </div>
+            <div>
+              <p className="font-medium text-surface-700">Waiting for location access</p>
+              <p className="text-sm text-surface-500">Allow location permission in your browser to appear on the map</p>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

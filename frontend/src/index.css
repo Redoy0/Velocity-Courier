@@ -1,5 +1,5 @@
-/* Import Inter font */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+/* Import Source Sans 3 (Latin UI text) + Noto Sans Bengali (for the ৳ currency glyph and any Bengali copy) */
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@300;400;500;600;700;800&family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -165,12 +165,12 @@
 
   /* Stats Card */
   .stat-card {
-    @apply card p-5 relative overflow-hidden;
+    @apply card p-5 relative overflow-hidden flex items-center gap-4;
   }
 
   .stat-card::before {
     content: '';
-    @apply absolute top-0 right-0 w-32 h-32 rounded-full opacity-10 -translate-y-1/2 translate-x-1/2;
+    @apply absolute top-0 right-0 w-32 h-32 rounded-full opacity-10 -translate-y-1/2 translate-x-1/2 pointer-events-none;
   }
 
   .stat-card-primary::before {
@@ -189,6 +189,36 @@
     @apply bg-danger-500;
   }
 
+  /* Stat Card sub-elements (icon badge + value/label stack) */
+  .stat-icon {
+    @apply relative z-10 flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl;
+  }
+
+  .stat-content {
+    @apply relative z-10 flex flex-col;
+  }
+
+  .stat-value {
+    @apply text-2xl font-bold leading-tight text-surface-900;
+  }
+
+  .stat-label {
+    @apply text-sm font-medium text-surface-500;
+  }
+
+  /* Card Header / Body / Footer (paired with .card for sectioned layouts) */
+  .card-header {
+    @apply px-6 py-5 border-b border-surface-100;
+  }
+
+  .card-body {
+    @apply p-6;
+  }
+
+  .card-footer {
+    @apply px-6 py-5 border-t border-surface-100 bg-surface-50/60 rounded-b-2xl;
+  }
+
   /* Professional Navbar */
   .navbar {
     @apply sticky top-0 z-50 w-full bg-white/80 backdrop-blur-xl border-b border-surface-200;
@@ -201,6 +231,18 @@
 
   .modal-content {
     @apply bg-white rounded-2xl shadow-elevated w-full max-w-md animate-slide-up;
+  }
+
+  .modal-header {
+    @apply flex items-center justify-between px-6 py-5 border-b border-surface-100;
+  }
+
+  .modal-body {
+    @apply p-6;
+  }
+
+  .modal-footer {
+    @apply flex items-center justify-end gap-3 px-6 py-5 border-t border-surface-100 bg-surface-50/60 rounded-b-2xl;
   }
 
   /* Form Group */
@@ -254,6 +296,11 @@
 
   .alert-info {
     @apply bg-info-50 text-info-700 border border-info-200;
+  }
+
+  /* Alias used by some pages that apply the danger variant standalone */
+  .alert-danger {
+    @apply alert bg-danger-50 text-danger-700 border border-danger-200;
   }
 
   /* Connection Status Indicator */

@@ -147,8 +147,8 @@ export default function PublicTrack() {
                 </svg>
               </div>
               <div>
-                <span className="font-bold text-surface-900">Velocity Courier</span>
-                <p className="text-xs text-surface-500">Public Tracking</p>
+                <span className="font-bold text-surface-900">Smart Courier Management System</span>
+                <p className="text-xs text-surface-500">Public Parcel Tracking Portal</p>
               </div>
             </div>
           </div>
@@ -168,7 +168,7 @@ export default function PublicTrack() {
                 </div>
                 <div>
                   <h3 className="text-lg font-semibold text-surface-900">Tracking #{parcel.trackingCode}</h3>
-                  <p className="text-sm text-surface-500">Delivery Progress</p>
+                  <p className="text-sm text-surface-500">Lifecycle Progress and Status Trace</p>
                 </div>
               </div>
               <span className={`badge-${

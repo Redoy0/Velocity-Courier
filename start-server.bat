@@ -4,7 +4,7 @@ set SCRIPT_DIR=%~dp0
 
 echo.
 echo  ========================================
-echo   🚀 Velocity Courier - Starting...
+echo   Starting Smart Courier Management System...
 echo  ========================================
 echo.
 
@@ -15,7 +15,7 @@ if not exist "node_modules" (
     call npm install
 )
 echo [Backend] Starting server on port 5000...
-start cmd /k "title Velocity Courier - Backend && npm run dev"
+start cmd /k "title SCPMS Backend && npm run dev"
 
 :: Small delay to let backend start first
 timeout /t 2 /nobreak >nul
@@ -27,7 +27,7 @@ if not exist "node_modules" (
     call npm install
 )
 echo [Frontend] Starting dev server on port 5173...
-start cmd /k "title Velocity Courier - Frontend && npm run dev"
+start cmd /k "title SCPMS Frontend && npm run dev"
 
 echo.
 echo  ========================================

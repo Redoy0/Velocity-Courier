@@ -7,7 +7,7 @@ const SMTP_USER = process.env.MAIL_USER ;
 const SMTP_PASS = process.env.MAIL_PASS ;
 const SMTP_SECURE = process.env.MAIL_SECURE ? process.env.MAIL_SECURE === 'true' : SMTP_PORT === 465;
 const SMTP_FROM = process.env.MAIL_FROM || SMTP_USER;
-const SMTP_FROM_NAME = process.env.MAIL_FROM_NAME || 'Courier Parcel';
+const SMTP_FROM_NAME = process.env.MAIL_FROM_NAME || 'Smart Courier Management System';
 
 export const transporter = nodemailer.createTransport({
   host: SMTP_HOST,
@@ -33,7 +33,7 @@ export async function sendStatusEmail({ to, parcel, newStatus }) {
       </ul>
       <p>You can view details in your dashboard.</p>
       <hr />
-      <p style="color:#64748b; font-size:12px;">This is an automated message from Velocity Courier.</p>
+      <p style="color:#64748b; font-size:12px;">This is an automated message from Smart Courier Management System.</p>
     </div>
   `;
   const text = `Parcel ${parcel.trackingCode} status changed to ${newStatus}`;

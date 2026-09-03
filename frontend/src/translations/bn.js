@@ -1,6 +1,6 @@
 export const bn = {
   // Common
-  velocityCourier: ' ভেলোসিটি কুরিয়ার',
+  scpmsTitle: 'স্মার্ট কুরিয়ার ম্যানেজমেন্ট সিস্টেম',
   logout: 'লগআউট',
   connected: 'সংযুক্ত',
   disconnected: 'সংযোগ বিচ্ছিন্ন',
@@ -91,15 +91,15 @@ export const bn = {
   passwordPlaceholder: '••••••••',
   
   // Login Page Branding
-  trustedPartnerTagline: 'নির্বিঘ্ন পার্সেল ডেলিভারি এবং রিয়েল-টাইম ট্র্যাকিং সমাধানের জন্য আপনার বিশ্বস্ত অংশীদার।',
-  realtimeGpsTracking: 'রিয়েল-টাইম জিপিএস ট্র্যাকিং',
-  secureReliableService: 'নিরাপদ এবং নির্ভরযোগ্য সেবা',
-  fastEfficientDelivery: 'দ্রুত এবং দক্ষ ডেলিভারি',
+  trustedPartnerTagline: 'বুদ্ধিমান পার্সেল কর্মপ্রবাহ, লাইভ ট্র্যাকিং এবং অপারেশনাল অ্যানালিটিক্সের জন্য একটি থিসিস-ভিত্তিক ওয়েব প্ল্যাটফর্ম।',
+  realtimeGpsTracking: 'লাইভ অবস্থান বিশ্লেষণ',
+  secureReliableService: 'ভূমিকা-ভিত্তিক প্রবেশ নিয়ন্ত্রণ',
+  fastEfficientDelivery: 'ডেলিভারি অ্যানালিটিক্স ও অপ্টিমাইজেশন',
   welcomeBack: 'স্বাগতম',
   signInToAccount: 'আপনার অ্যাকাউন্টে সাইন ইন করুন',
   createAccount: 'অ্যাকাউন্ট তৈরি করুন',
-  getStartedWithAccount: 'আপনার অ্যাকাউন্ট দিয়ে শুরু করুন',
-  copyrightFooter: '© ২০২৫ ভেলোসিটি কুরিয়ার। সর্বস্বত্ব সংরক্ষিত।',
+  getStartedWithAccount: 'একাডেমিক ডেমোনস্ট্রেশন পোর্টালে প্রবেশ করুন',
+  copyrightFooter: '© ২০২৬ স্মার্ট কুরিয়ার ম্যানেজমেন্ট সিস্টেম। সর্বস্বত্ব সংরক্ষিত।',
   
   // Language names
   english: 'English',
